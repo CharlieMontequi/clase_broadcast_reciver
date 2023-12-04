@@ -20,12 +20,13 @@ class MainActivity : AppCompatActivity() {
 
         // sobreescribir el metodo on recive que establece el intent con el que se obtendrá la información
 
-        override fun onReceive(p0: Context?, p1: Intent?) {
+        override fun onReceive(p0: Context?, intento: Intent?) {
             mostrarEstadoConexion.text="sfsdfwefrwerwerwer al Wifi"
-            val conectado : Boolean = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, true)
+            val conectado : Boolean = intento!!.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, true)
+                //.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, true)
                 //intent.getBooleanExtra("conectado", false)
 
-            if(conectado==false){
+            if(conectado==true){
                 mostrarEstadoConexion.text="Conectado al Wifi"
             }else{
                 mostrarEstadoConexion.text="No hay conexión"
