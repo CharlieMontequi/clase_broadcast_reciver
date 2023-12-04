@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.ConnectivityManager
 import android.net.wifi.aware.WifiAwareManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -20,9 +21,11 @@ class MainActivity : AppCompatActivity() {
         // sobreescribir el metodo on recive que establece el intent con el que se obtendrá la información
 
         override fun onReceive(p0: Context?, p1: Intent?) {
-            val conectado : Boolean = intent.getBooleanExtra("conectado", false)
+            mostrarEstadoConexion.text="sfsdfwefrwerwerwer al Wifi"
+            val conectado : Boolean = intent.getBooleanExtra(ConnectivityManager.EXTRA_NO_CONNECTIVITY, true)
+                //intent.getBooleanExtra("conectado", false)
 
-            if(conectado==true){
+            if(conectado==false){
                 mostrarEstadoConexion.text="Conectado al Wifi"
             }else{
                 mostrarEstadoConexion.text="No hay conexión"
@@ -36,10 +39,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         mostrarEstadoConexion = findViewById(R.id.txtV_estadoConexion)
 
+
         //se establece la suscripción(conexion) al wifi para ver si esta conectado o no y si se tiene los permisos correspondientes
         // OJO- supuestamente estan dados en el manifest
         // RE OJO!!!!!- SIEMPRE QUE SE HAGA UNA SUSCRIPCION A ALGUNA ELEMENTO EXTERNO HAY UE DESCONECTARSE DESPUES EN EL ON DESTROY
-        registerReceiver(estadoConexionWifi, IntentFilter(WifiAwareManager.ACTION_WIFI_AWARE_STATE_CHANGED))// creo que con esto estaría
+      //  registerReceiver(estadoConexionWifi, IntentFilter(ConnectivityManager.EXTRA_NETWORK))
+        registerReceiver(estadoConexionWifi, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))// con esto al menos entra en elbradcastreciver pero esta deprecated
     }
 
     override fun onDestroy() {
